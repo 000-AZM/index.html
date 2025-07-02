@@ -1,186 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Quiz</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 50px;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffc0cb, #ffe4e1);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: #444;
+    }
 
-      h1 {
-        color: #1effb0;
-      }
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 300px;
+    }
 
-      button {
-        color: rgb(11, 110, 41);
-      }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #d6336c;
+    }
 
-      #quiz-container {
-        width: 50%;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        background-color: #ff68;
-      }
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
 
-      .question {
-        margin-bottom: 20px;
-      }
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
 
-      .options {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+    .yes {
+      background-color: #ff69b4;
+      color: white;
+    }
 
-      .option {
-        margin-bottom: 10px;
-      }
+    .yes:hover {
+      background-color: #ff1493;
+    }
 
-      #result {
-        margin-top: 20px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>English Quiz</h1>
+    .no {
+      background-color: #f0f0f0;
+      color: #999;
+      cursor: not-allowed;
+      position: relative;
+    }
 
-    <div id="quiz-container">
-      <div id="question-container"></div>
-      <div class="options" id="options-container"></div>
+    .no::after {
+      content: "🚫";
+      position: absolute;
+      right: -20px;
+      top: -10px;
+    }
 
-      <button onclick="submitQuiz()">Submit</button>
-      <p id="result"></p>
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    .heart {
+      font-size: 24px;
+      color: red;
+      animation: beat 1s infinite;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Do you love me? 💞</h1>
+    <div class="buttons">
+      <a href="https://t.me/YOUR_USERNAME" class="btn yes">Yes 💖</a>
+      <button class="btn no" disabled>No 😐</button>
     </div>
-
-    <script>
-      /* new Question("An investment in knowledge pays the best ___.?\na.income b.intellect c.interest","alsjfaw"),
-            //new Question("lily is ___ for the job.\na.enough smart b.smart enough c.too smart","alsjfaw"),
-              // new Question("No one Nohas arrived,___?\na.has he b.has she c.have they","alsjfaw"),
-              // new Question("Bill left home\na.at late b.late c.lately","alsjfaw"),
-              new Question("Regular execrise has brought ___ many positive changes in my life.\na.about b.out c.up","alsjfaw"),
-               new Question("This car doesn't go as fast as my old one ___.\na.do b.does c.did","alsjfaw"),
-               new Question("The house is being ___.\na.sale b.sell c.sold","alsjfaw"),
-               new Question("I have read this book and ___ very interesting information.\na.found about b.about of c.found out","alsjfaw"),
-               new Question("I ___ high school when I was 15.\na.finished b.ended c.stopped","alsjfaw"),
-               new Question("I think something is wrong,___?\na.don't I b.isn't I c.isn't it","alsjfaw")
-      };*/
-      const questions = [
-        {
-          question: "An investment in knowledge pays the best ___.?",
-          options: ["income", "intellect", "interest"],
-          correctAnswer: "income",
-        },
-        {
-          question: "lily is ___ for the job.",
-          options: ["enough smart", "smart enough", "too smart"],
-          correctAnswer: "smart enough",
-        },
-        {
-          question: "No one has arrived,___?",
-          options: ["has", "has she", "have they"],
-          correctAnswer: "have they",
-        },
-        {
-          question: "Bill left home ___.",
-          options: ["at late", "late", "lately"],
-          correctAnswer: "at late",
-        },
-        {
-          question:
-            "Regular execrise has brought ___ many positive changes in my life.",
-          options: ["about", "out", "up"],
-          correctAnswer: "about",
-        },
-        {
-          question: "This car doesn't go as fast as my old one ___.",
-          options: ["do", "does", "did"],
-          correctAnswer: "did",
-        },
-        {
-          question: "The house is being ___.",
-          options: ["sale", "sell", "sold"],
-          correctAnswer: "sold",
-        },
-        {
-          question:
-            "I have read this book and ___ very interesting information.",
-          options: ["found about", "about of", "found out"],
-          correctAnswer: "found out",
-        },
-        {
-          question: "I ___ high school when I was 15.",
-          options: ["finished", "ended", "stopped"],
-          correctAnswer: "finished",
-        },
-        {
-          question: "I think something is wrong,___?",
-          options: ["don't I", "isn't I", "isn't it"],
-          correctAnswer: "isn't it",
-        },
-      ];
-
-      let currentQuestionIndex = 0;
-      let right = 0;
-      function loadQuestion() {
-        const questionContainer = document.getElementById("question-container");
-        const optionsContainer = document.getElementById("options-container");
-        const currentQuestion = questions[currentQuestionIndex];
-
-        questionContainer.innerHTML = `<p>${currentQuestion.question}</p>`;
-
-        optionsContainer.innerHTML = currentQuestion.options
-          .map(
-            (option, index) => `<div class="option">
-              <input type="radio" name="answer" value="${option}" id="option${index}">
-              <label for="option${index}">${option}</label>
-            </div>`
-          )
-          .join("");
-      }
-
-      function submitQuiz() {
-        const selectedOption = document.querySelector(
-          'input[name="answer"]:checked'
-        );
-        const resultElement = document.getElementById("result");
-
-        if (!selectedOption) {
-          resultElement.style.color = "red";
-          resultElement.textContent = "Please select an answer.";
-        } else {
-          const userAnswer = selectedOption.value;
-          const correctAnswer = questions[currentQuestionIndex].correctAnswer;
-
-          if (userAnswer === correctAnswer) {
-            resultElement.style.color = "green";
-            right++;
-            resultElement.textContent = "Correct!";
-          } else {
-            resultElement.style.color = "red";
-            resultElement.textContent = `Incorrect. The correct answer is ${correctAnswer}.`;
-          }
-
-          // Move to the next question or end the quiz
-          currentQuestionIndex++;
-          if (currentQuestionIndex < questions.length) {
-            loadQuestion();
-          } else {
-            resultElement.style.color = "blue";
-            resultElement.textContent += ` Your final score is ${right}/${questions.length}.`;
-            document.querySelector("button").disabled = true;
-          }
-        }
-      }
-
-      // Initial load
-      loadQuestion();
-    </script>
-  </body>
+    <div class="footer">
+      Waiting for your answer... <span class="heart">❤️</span>
+    </div>
+  </div>
+</body>
 </html>
